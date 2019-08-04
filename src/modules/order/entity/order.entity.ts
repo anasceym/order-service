@@ -22,7 +22,7 @@ export class Order {
   status: OrderStatus
 
   @BeforeInsert()
-  afterInsert() {
+  afterInsert () {
     this.status = OrderStatus.CREATED
   }
 }
