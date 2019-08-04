@@ -21,4 +21,8 @@ export class OrderService {
 
     return this.orderRepository.save(order)
   }
+
+  async getById (id: string): Promise<Order> {
+    return this.orderRepository.findOne(id)
+  }
 }

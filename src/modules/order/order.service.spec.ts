@@ -49,4 +49,19 @@ describe('OrderService', () => {
       expect(result.status).toBe(OrderStatus.CANCELLED)
     })
   })
+
+  describe('Get an order by id', () => {
+    it('resolves the order', async () => {
+      // Prepare
+      const newOrder = new Order()
+      newOrder.name = 'New Order'
+      const createdOrder = await orderRepo.save(newOrder)
+
+      // Action
+      const result = await orderService.getById(createdOrder.id.toString())
+
+      // Assert
+      expect(result.id.toString()).toEqual(createdOrder.id.toString())
+    })
+  })
 })
