@@ -1,4 +1,4 @@
-import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm'
+import { BeforeInsert, Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm'
 
 export enum OrderStatus {
   CREATED = 'CREATED',
@@ -16,7 +16,13 @@ export class Order {
   name: string
 
   @Column({
+    nullable: false,
     default: OrderStatus.CREATED,
   })
   status: OrderStatus
+
+  @BeforeInsert()
+  afterInsert() {
+    this.status = OrderStatus.CREATED
+  }
 }
