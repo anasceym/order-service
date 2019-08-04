@@ -4,10 +4,11 @@ import { Repository } from 'typeorm'
 
 import { DatabaseModule } from '../database/database.module'
 import { Order } from './entity/order.entity'
+import { OrderController } from './order.controller'
 import { OrderService } from './order.service'
 
-describe('OrderService', () => {
-  let orderService: OrderService
+xdescribe('OrderController', () => {
+  let orderController: OrderController
   let orderRepo: Repository<Order>
 
   beforeEach(async () => {
@@ -16,25 +17,30 @@ describe('OrderService', () => {
         DatabaseModule,
         TypeOrmModule.forFeature([Order])
       ],
-      providers: [OrderService]
+      controllers: [OrderController],
+      providers: [OrderService],
     }).compile()
 
-    orderService = app.get<OrderService>(OrderService)
+    orderController = app.get<OrderController>(OrderController)
     orderRepo = app.get('OrderRepository')
     
     // Truncate the order collection
     await orderRepo.clear()
   })
 
-  describe('List all orders created', () => {
-    it('resolves list of all orders', async () => {
+  describe('findAll()', () => {
+    it('resolves the list of orders', async () => {
+      // Prepare
       const newOrder = new Order()
-      newOrder.name = 'New Order 2'
+      newOrder.name = 'New Order 1'
       await orderRepo.save(newOrder)
 
-      const result = await orderService.findAll()
+      // Action
+      const result = await orderController.getAll()
 
-      expect(result.length).toBe(1)
+      // Assert
+      expect(result).toBeInstanceOf(Array)
+      expect(result.length).toBeGreaterThan(0)
     })
   })
 })

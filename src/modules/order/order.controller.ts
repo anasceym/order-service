@@ -1,5 +1,9 @@
 import { Controller, Get } from '@nestjs/common'
 
+import { GetOrderResponseDto } from './dto/order.dto'
+import { OrderStatus } from './entity/order.entity'
+import { OrderService } from './order.service'
+
 export enum ORDER_STATUS {
   CREATED = 'CREATED',
   CONFIRMED = 'CONFIRMED',
@@ -13,22 +17,17 @@ export interface Order {
 
 @Controller('orders')
 export class OrderController {
-  create (): Order {
-    return {
-      status: ORDER_STATUS.CREATED
-    }
-  }
-
+  constructor (
+    private readonly orderService: OrderService
+  ) {}
   @Get()
-  get (): Order[] {
-    return [
-      {
-        status: ORDER_STATUS.CREATED
-      }
-    ]
-  }
+  async getAll (): Promise<GetOrderResponseDto[]> {
+    const orders = await this.orderService.findAll()
 
-  cancel (): void {
-    return
+    return orders.map(order => ({
+      id: order.id.toString(),
+      name: order.name,
+      status: OrderStatus.CREATED
+    }))
   }
 }
