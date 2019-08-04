@@ -8,18 +8,16 @@ export enum ORDER_STATUS {
   CREATED = 'CREATED',
   CONFIRMED = 'CONFIRMED',
   DELIVERED = 'DELIVERED',
-  CANCELLED = 'CANCELLED'
+  CANCELLED = 'CANCELLED',
 }
 
 export interface Order {
-   status: ORDER_STATUS
+  status: ORDER_STATUS
 }
 
 @Controller('orders')
 export class OrderController {
-  constructor (
-    private readonly orderService: OrderService
-  ) {}
+  constructor (private readonly orderService: OrderService) {}
   @Get()
   async getAll (): Promise<GetOrderResponseDto[]> {
     const orders = await this.orderService.findAll()
@@ -27,7 +25,7 @@ export class OrderController {
     return orders.map(order => ({
       id: order.id.toString(),
       name: order.name,
-      status: OrderStatus.CREATED
+      status: OrderStatus.CREATED,
     }))
   }
 }

@@ -8,7 +8,7 @@ import { Order } from './entity/order.entity'
 export class OrderService {
   constructor (
     @InjectRepository(Order)
-    private readonly orderRepository: Repository<Order>
+    private readonly orderRepository: Repository<Order>,
   ) {}
 
   async findAll (): Promise<Order[]> {

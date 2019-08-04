@@ -18,8 +18,8 @@ import { Config } from '../config/interface/config.interface'
         entities: [join(__dirname, '../**/entity/**.entity{.ts,.js}')],
         synchronize: true,
       }),
-      inject: [CONFIG]
-    })
-  ]
+      inject: [CONFIG],
+    }),
+  ],
 })
 export class DatabaseModule {}

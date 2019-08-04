@@ -13,17 +13,14 @@ xdescribe('OrderController', () => {
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      imports: [
-        DatabaseModule,
-        TypeOrmModule.forFeature([Order])
-      ],
+      imports: [DatabaseModule, TypeOrmModule.forFeature([Order])],
       controllers: [OrderController],
       providers: [OrderService],
     }).compile()
 
     orderController = app.get<OrderController>(OrderController)
     orderRepo = app.get('OrderRepository')
-    
+
     // Truncate the order collection
     await orderRepo.clear()
   })

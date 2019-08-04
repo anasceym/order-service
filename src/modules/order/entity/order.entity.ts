@@ -4,7 +4,7 @@ export enum OrderStatus {
   CREATED = 'CREATED',
   CONFIRMED = 'CONFIRMED',
   DELIVERED = 'DELIVERED',
-  CANCELLED = 'CANCELLED'
+  CANCELLED = 'CANCELLED',
 }
 
 @Entity()
@@ -13,10 +13,10 @@ export class Order {
   id: ObjectID
 
   @Column()
-  name: string;
+  name: string
 
   @Column({
-    default: OrderStatus.CREATED
+    default: OrderStatus.CREATED,
   })
   status: OrderStatus
 }

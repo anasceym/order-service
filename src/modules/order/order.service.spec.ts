@@ -12,16 +12,13 @@ describe('OrderService', () => {
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      imports: [
-        DatabaseModule,
-        TypeOrmModule.forFeature([Order])
-      ],
-      providers: [OrderService]
+      imports: [DatabaseModule, TypeOrmModule.forFeature([Order])],
+      providers: [OrderService],
     }).compile()
 
     orderService = app.get<OrderService>(OrderService)
     orderRepo = app.get('OrderRepository')
-    
+
     // Truncate the order collection
     await orderRepo.clear()
   })
