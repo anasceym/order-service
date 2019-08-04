@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -6,6 +7,7 @@ import {
   HttpStatus,
   NotFoundException,
   Param,
+  Post,
 } from '@nestjs/common'
 import {
   ApiImplicitParam,
@@ -15,7 +17,7 @@ import {
   ApiUseTags,
 } from '@nestjs/swagger'
 
-import { GetOrderResponseDto } from './dto/order.dto'
+import { CreateOrderRequestDto, GetOrderResponseDto } from './dto/order.dto'
 import { OrderService } from './order.service'
 
 export enum ORDER_STATUS {
@@ -88,6 +90,22 @@ export class OrderController {
     if (!result) {
       throw new NotFoundException()
     }
+
+    return {
+      id: result.id.toString(),
+      name: result.name,
+      status: result.status,
+    }
+  }
+
+  @Post()
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: GetOrderResponseDto })
+  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  async create (
+    @Body() body: CreateOrderRequestDto,
+  ): Promise<GetOrderResponseDto> {
+    const result = await this.orderService.create(body.name)
 
     return {
       id: result.id.toString(),

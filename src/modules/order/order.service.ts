@@ -30,4 +30,11 @@ export class OrderService {
   async getById (id: string): Promise<Order> {
     return this.orderRepository.findOne(id)
   }
+
+  async create (name: string): Promise<Order> {
+    const newOrder = new Order()
+    newOrder.name = name
+
+    return this.orderRepository.save(newOrder)
+  }
 }

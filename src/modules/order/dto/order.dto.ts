@@ -21,3 +21,11 @@ export class GetOrderResponseDto {
   })
   status: OrderStatus
 }
+
+export class CreateOrderRequestDto {
+  @ApiModelProperty({
+    description: 'Name of the order',
+    example: 'Name',
+  })
+  name: string
+}

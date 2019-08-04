@@ -104,5 +104,20 @@ describe('OrderController', () => {
         }
       })
     })
+
+    describe('Creating a new order', () => {
+      it('resolves the newly created order', async () => {
+        // Prepare
+        const body = {
+          name: 'Newly created order',
+        }
+
+        // Action
+        const result = await orderController.create(body)
+
+        // Assert
+        expect(result.name).toBe(body.name)
+      })
+    })
   })
 })
