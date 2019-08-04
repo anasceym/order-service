@@ -2,5 +2,10 @@
   "app": {
     "host": "localhost",
     "port": 2700
+  },
+  "mongo": {
+    "host": "localhost",
+    "port": 27017,
+    "db": "order-db-test"
   }
 }

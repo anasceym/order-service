@@ -2,6 +2,8 @@ import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 
 import { AppModule } from './modules/app/app.module'
+import { CONFIG } from './modules/config/config.provider'
+import { Config } from './modules/config/interface/config.interface'
 
 async function bootstrap () {
   const app = await NestFactory.create(AppModule)
@@ -15,7 +17,9 @@ async function bootstrap () {
   const document = SwaggerModule.createDocument(app, options)
   SwaggerModule.setup('api', app, document)
 
-  await app.listen(3000)
+  const config = app.get<Config>(CONFIG)
+
+  await app.listen(config.app.port, config.app.host)
 }
 
 // tslint:disable-next-line: no-floating-promises
