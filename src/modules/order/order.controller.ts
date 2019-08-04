@@ -1,12 +1,19 @@
-import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common'
 import {
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+} from '@nestjs/common'
+import {
+  ApiImplicitParam,
   ApiInternalServerErrorResponse,
   ApiOkResponse,
   ApiUseTags,
 } from '@nestjs/swagger'
 
 import { GetOrderResponseDto } from './dto/order.dto'
-import { OrderStatus } from './entity/order.entity'
 import { OrderService } from './order.service'
 
 export enum ORDER_STATUS {
@@ -35,7 +42,26 @@ export class OrderController {
     return orders.map(order => ({
       id: order.id.toString(),
       name: order.name,
-      status: OrderStatus.CREATED,
+      status: order.status,
     }))
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.OK)
+  @ApiImplicitParam({
+    name: 'id',
+    required: true,
+    description: 'Order ID',
+  })
+  @ApiOkResponse({ type: GetOrderResponseDto })
+  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  async cancelById (@Param('id') id): Promise<GetOrderResponseDto> {
+    const result = await this.orderService.cancelById(id)
+
+    return {
+      id: result.id.toString(),
+      name: result.name,
+      status: result.status,
+    }
   }
 }
