@@ -1,3 +1,4 @@
+import { NotFoundException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
@@ -22,7 +23,11 @@ describe('OrderController', () => {
     orderRepo = app.get('OrderRepository')
 
     // Truncate the order collection
-    await orderRepo.clear()
+    try {
+      await orderRepo.clear()
+    } catch (err) {
+      // Silence
+    }
   })
 
   describe('findAll()', () => {
@@ -50,11 +55,41 @@ describe('OrderController', () => {
 
       // Action
       const result = await orderController.cancelById(
-        createdOrder.id.toHexString(),
+        createdOrder.id.toString(),
       )
 
       // Assert
       expect(result.status).toBe(OrderStatus.CANCELLED)
+    })
+  })
+
+  describe('Get order by ID', () => {
+    it('resolves the order', async () => {
+      // Prepare
+      const newOrder = new Order()
+      newOrder.name = 'New Order'
+      const createdOrder = await orderRepo.save(newOrder)
+
+      // Action
+      const result = await orderController.cancelById(
+        createdOrder.id.toString(),
+      )
+
+      // Assert
+      expect(result.id).toBe(createdOrder.id.toString())
+    })
+
+    describe('unknown id', () => {
+      it('throws not found exception', async () => {
+        // Prepare
+        const unknownId = '5d470a0e1d7a41762ad03bd5'
+        // Action
+        try {
+          await orderController.findById(unknownId)
+        } catch (err) {
+          expect(err).toBeInstanceOf(NotFoundException)
+        }
+      })
     })
   })
 })

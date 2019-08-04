@@ -20,7 +20,11 @@ describe('OrderService', () => {
     orderRepo = app.get('OrderRepository')
 
     // Truncate the order collection
-    await orderRepo.clear()
+    try {
+      await orderRepo.clear()
+    } catch (err) {
+      // Silence
+    }
   })
 
   describe('List all orders created', () => {

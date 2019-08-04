@@ -17,6 +17,7 @@ export class OrderService {
 
   async cancelById (id: string): Promise<Order> {
     const order = await this.orderRepository.findOne(id)
+
     order.status = OrderStatus.CANCELLED
 
     return this.orderRepository.save(order)
