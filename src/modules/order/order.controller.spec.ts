@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
+import { ConfigModule } from '../config/config.module'
 import { DatabaseModule } from '../database/database.module'
 import { Order, OrderStatus } from './entity/order.entity'
 import { OrderController } from './order.controller'
@@ -14,20 +15,13 @@ describe('OrderController', () => {
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      imports: [DatabaseModule, TypeOrmModule.forFeature([Order])],
+      imports: [ ConfigModule, DatabaseModule, TypeOrmModule.forFeature([Order])],
       controllers: [OrderController],
       providers: [OrderService],
     }).compile()
 
     orderController = app.get<OrderController>(OrderController)
     orderRepo = app.get('OrderRepository')
-
-    // Truncate the order collection
-    try {
-      await orderRepo.clear()
-    } catch (err) {
-      // Silence
-    }
   })
 
   describe('findAll()', () => {

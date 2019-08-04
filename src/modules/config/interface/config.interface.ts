@@ -4,8 +4,11 @@ export interface Config {
     port: number
   }
   mongo: {
-    host: string
-    port: number
-    db: string
+    connectionString?: string
+    host?: string
+    port?: number
+    db?: string
+    username?: string
+    password?: string
   }
 }

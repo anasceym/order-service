@@ -1,9 +1,13 @@
 {
+  "test": "test",
   "app": {
     "host": "localhost",
     "port": 2700
   },
   "mongo": {
+    "connectionString": "",
+    "username": "",
+    "password": "",
     "host": "localhost",
     "port": 27017,
     "db": "order-db"

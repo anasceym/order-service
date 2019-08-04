@@ -10,15 +10,30 @@ import { Config } from '../config/interface/config.interface'
   imports: [
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (config: Config) => ({
-        type: 'mongodb',
-        host: config.mongo.host,
-        port: config.mongo.port,
-        database: config.mongo.db,
-        entities: [join(__dirname, '../**/entity/**.entity{.ts,.js}')],
-        synchronize: true,
-        keepConnectionAlive: true,
-      }),
+      useFactory: (config: Config) => {
+        return ({
+          type: 'mongodb',
+          url:
+            config.mongo.connectionString &&
+            config.mongo.username &&
+            config.mongo.password &&
+            config.mongo.db &&
+            config.mongo.host
+              ? config.mongo.connectionString
+                  .replace('{{username}}', config.mongo.username)
+                  .replace('{{password}}', config.mongo.password)
+                  .replace('{{host}}', config.mongo.host)
+                  .replace('{{db}}', config.mongo.db)
+              : '',
+          useNewUrlParser: true,
+          host: config.mongo.host,
+          port: config.mongo.port,
+          database: config.mongo.db,
+          entities: [join(__dirname, '../**/entity/**.entity{.ts,.js}')],
+          synchronize: true,
+          keepConnectionAlive: true,
+        })
+      },
       inject: [CONFIG],
     }),
   ],

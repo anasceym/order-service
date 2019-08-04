@@ -1,9 +1,13 @@
 import { Provider } from '@nestjs/common'
 import * as config from 'config'
+import * as dotenv from 'dotenv'
 
 export const CONFIG = 'ConfigProviderToken'
 
 export const configProvider: Provider = {
   provide: CONFIG,
-  useValue: config,
+  useFactory: () => {
+    dotenv.config()
+    return config
+  }
 }
