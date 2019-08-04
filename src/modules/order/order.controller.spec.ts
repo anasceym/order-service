@@ -61,6 +61,19 @@ describe('OrderController', () => {
       // Assert
       expect(result.status).toBe(OrderStatus.CANCELLED)
     })
+
+    describe('Unknown order id', () => {
+      it('throws not found exception', async () => {
+        // Prepare
+        const unknownId = '5d470a0e1d7a41762ad03bd5'
+        // Action
+        try {
+          await orderController.cancelById(unknownId)
+        } catch (err) {
+          expect(err).toBeInstanceOf(NotFoundException)
+        }
+      })
+    })
   })
 
   describe('Get order by ID', () => {

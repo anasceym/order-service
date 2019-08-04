@@ -10,6 +10,7 @@ import {
 import {
   ApiImplicitParam,
   ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiUseTags,
 } from '@nestjs/swagger'
@@ -56,8 +57,13 @@ export class OrderController {
   })
   @ApiOkResponse({ type: GetOrderResponseDto })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  @ApiNotFoundResponse({ description: 'Resource not found' })
   async cancelById (@Param('id') id): Promise<GetOrderResponseDto> {
     const result = await this.orderService.cancelById(id)
+
+    if (!result) {
+      throw new NotFoundException()
+    }
 
     return {
       id: result.id.toString(),
@@ -75,6 +81,7 @@ export class OrderController {
   })
   @ApiOkResponse({ type: GetOrderResponseDto })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  @ApiNotFoundResponse({ description: 'Resource not found' })
   async findById (@Param('id') id): Promise<GetOrderResponseDto> {
     const result = await this.orderService.getById(id)
 
