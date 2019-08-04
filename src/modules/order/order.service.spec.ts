@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
 import { DatabaseModule } from '../database/database.module'
-import { Order } from './entity/order.entity'
+import { Order, OrderStatus } from './entity/order.entity'
 import { OrderService } from './order.service'
 
 describe('OrderService', () => {
@@ -32,6 +32,21 @@ describe('OrderService', () => {
       const result = await orderService.findAll()
 
       expect(result.length).toBe(1)
+    })
+  })
+
+  describe('Cancel an order by id', () => {
+    it('resolves the order with updated status, CANCELLED', async () => {
+      // Prepare
+      const newOrder = new Order()
+      newOrder.name = 'New Order 2'
+      const createdOrder = await orderRepo.save(newOrder)
+
+      // Action
+      const result = await orderService.cancelById(createdOrder.id.toString())
+
+      // Assert
+      expect(result.status).toBe(OrderStatus.CANCELLED)
     })
   })
 })

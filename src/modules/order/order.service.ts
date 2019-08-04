@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { Order } from './entity/order.entity'
+import { Order, OrderStatus } from './entity/order.entity'
 
 @Injectable()
 export class OrderService {
@@ -13,5 +13,12 @@ export class OrderService {
 
   async findAll (): Promise<Order[]> {
     return this.orderRepository.find()
+  }
+
+  async cancelById (id: string): Promise<Order> {
+    const order = await this.orderRepository.findOne(id)
+    order.status = OrderStatus.CANCELLED
+
+    return this.orderRepository.save(order)
   }
 }

@@ -17,6 +17,7 @@ import { Config } from '../config/interface/config.interface'
         database: config.mongo.db,
         entities: [join(__dirname, '../**/entity/**.entity{.ts,.js}')],
         synchronize: true,
+        keepConnectionAlive: true,
       }),
       inject: [CONFIG],
     }),
