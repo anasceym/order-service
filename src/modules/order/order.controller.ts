@@ -1,5 +1,9 @@
 import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common'
-import { ApiInternalServerErrorResponse, ApiOkResponse, ApiUseTags } from '@nestjs/swagger'
+import {
+  ApiInternalServerErrorResponse,
+  ApiOkResponse,
+  ApiUseTags,
+} from '@nestjs/swagger'
 
 import { GetOrderResponseDto } from './dto/order.dto'
 import { OrderStatus } from './entity/order.entity'
@@ -20,7 +24,7 @@ export interface Order {
 @ApiUseTags('orders')
 export class OrderController {
   constructor (private readonly orderService: OrderService) {}
-  
+
   @Get()
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ type: [GetOrderResponseDto] })

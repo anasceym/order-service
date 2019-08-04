@@ -5,19 +5,19 @@ import { OrderStatus } from '../entity/order.entity'
 export class GetOrderResponseDto {
   @ApiModelProperty({
     description: 'ID of order',
-    example: 'id-1234'
+    example: 'id-1234',
   })
   id: string
 
   @ApiModelProperty({
     description: 'Name of the order',
-    example: 'Name'
+    example: 'Name',
   })
   name: string
 
   @ApiModelProperty({
     description: 'Status of the order',
-    enum: OrderStatus
+    enum: OrderStatus,
   })
   status: OrderStatus
 }
