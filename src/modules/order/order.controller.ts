@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common'
+import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common'
+import { ApiInternalServerErrorResponse, ApiOkResponse, ApiUseTags } from '@nestjs/swagger'
 
 import { GetOrderResponseDto } from './dto/order.dto'
 import { OrderStatus } from './entity/order.entity'
@@ -16,9 +17,14 @@ export interface Order {
 }
 
 @Controller('orders')
+@ApiUseTags('orders')
 export class OrderController {
   constructor (private readonly orderService: OrderService) {}
+  
   @Get()
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponse({ type: [GetOrderResponseDto] })
+  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
   async getAll (): Promise<GetOrderResponseDto[]> {
     const orders = await this.orderService.findAll()
 
