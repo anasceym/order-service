@@ -11,7 +11,7 @@ import { Config } from '../config/interface/config.interface'
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (config: Config) => {
-        return ({
+        return {
           type: 'mongodb',
           url:
             config.mongo.connectionString &&
@@ -32,7 +32,7 @@ import { Config } from '../config/interface/config.interface'
           entities: [join(__dirname, '../**/entity/**.entity{.ts,.js}')],
           synchronize: true,
           keepConnectionAlive: true,
-        })
+        }
       },
       inject: [CONFIG],
     }),

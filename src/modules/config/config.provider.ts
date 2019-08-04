@@ -9,5 +9,5 @@ export const configProvider: Provider = {
   useFactory: () => {
     dotenv.config()
     return config
-  }
+  },
 }

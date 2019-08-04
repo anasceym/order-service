@@ -15,7 +15,11 @@ describe('OrderController', () => {
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      imports: [ ConfigModule, DatabaseModule, TypeOrmModule.forFeature([Order])],
+      imports: [
+        ConfigModule,
+        DatabaseModule,
+        TypeOrmModule.forFeature([Order]),
+      ],
       controllers: [OrderController],
       providers: [OrderService],
     }).compile()
