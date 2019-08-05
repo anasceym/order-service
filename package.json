@@ -27,6 +27,7 @@
     "config": "^3.2.2",
     "dotenv": "^8.0.0",
     "mongodb": "^3.3.0-beta2",
+    "nest-schedule": "^0.6.3",
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
     "rxjs": "^6.3.3",

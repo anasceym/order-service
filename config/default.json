@@ -10,5 +10,11 @@
     "host": "localhost",
     "port": 27017,
     "db": "order-db"
+  },
+  "services": {
+    "payment": {
+      "host": "localhost",
+      "port": 2701
+    }
   }
 }

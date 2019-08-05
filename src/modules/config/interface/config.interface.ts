@@ -11,4 +11,10 @@ export interface Config {
     username?: string
     password?: string
   }
+  services?: {
+    payment?: {
+      host?: string
+      port?: number
+    }
+  }
 }

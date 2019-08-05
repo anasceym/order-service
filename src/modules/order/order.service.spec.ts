@@ -1,5 +1,7 @@
+import { HttpModule } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { ScheduleModule } from 'nest-schedule'
 import { Repository } from 'typeorm'
 
 import { ConfigModule } from '../config/config.module'
@@ -17,6 +19,8 @@ describe('OrderService', () => {
         ConfigModule,
         DatabaseModule,
         TypeOrmModule.forFeature([Order]),
+        HttpModule,
+        ScheduleModule.register(),
       ],
       providers: [OrderService],
     }).compile()

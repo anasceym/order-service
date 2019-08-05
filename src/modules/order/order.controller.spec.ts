@@ -1,6 +1,7 @@
-import { NotFoundException } from '@nestjs/common'
+import { HttpModule, NotFoundException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { ScheduleModule } from 'nest-schedule'
 import { Repository } from 'typeorm'
 
 import { ConfigModule } from '../config/config.module'
@@ -19,6 +20,8 @@ describe('OrderController', () => {
         ConfigModule,
         DatabaseModule,
         TypeOrmModule.forFeature([Order]),
+        HttpModule,
+        ScheduleModule.register(),
       ],
       controllers: [OrderController],
       providers: [OrderService],

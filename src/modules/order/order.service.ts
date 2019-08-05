@@ -1,7 +1,10 @@
-import { Injectable } from '@nestjs/common'
+import { HttpService, Inject, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { InjectSchedule, Schedule } from 'nest-schedule'
 import { Repository } from 'typeorm'
 
+import { CONFIG } from '../config/config.provider'
+import { Config } from '../config/interface/config.interface'
 import { Order, OrderStatus } from './entity/order.entity'
 
 @Injectable()
@@ -9,6 +12,9 @@ export class OrderService {
   constructor (
     @InjectRepository(Order)
     private readonly orderRepository: Repository<Order>,
+    @Inject(HttpService) private readonly httpService: HttpService,
+    @Inject(CONFIG) private readonly config: Config,
+    @InjectSchedule() private readonly schedule: Schedule,
   ) {}
 
   async findAll (): Promise<Order[]> {
@@ -32,9 +38,55 @@ export class OrderService {
   }
 
   async create (name: string): Promise<Order> {
-    const newOrder = new Order()
+    let newOrder = new Order()
     newOrder.name = name
 
-    return this.orderRepository.save(newOrder)
+    newOrder = await this.orderRepository.save(newOrder)
+
+    this.handleMakePaymentJob(newOrder)
+
+    return newOrder
+  }
+
+  private handleMakePaymentJob (newOrder: Order) {
+    // this.schedule.scheduleTimeoutJob(
+    //   `make-payment-job-${newOrder.id.toString()}`,
+    //   10000,
+    //   () => {
+    //     this.httpService
+    //       .post(
+    //         `http://${this.config.services.payment.host}:${
+    //           this.config.services.payment.port
+    //         }/payments/make`,
+    //         {
+    //           referenceId: newOrder.id.toString(),
+    //         },
+    //       )
+    //       .subscribe(async ({ data }: { data: MakePaymentResponseDto }) => {
+    //         switch (data.status) {
+    //           case PaymentStatus.CONFIRMED:
+    //             newOrder.status = OrderStatus.CONFIRMED
+    //             this.handleDeliverJob(newOrder)
+    //             break
+    //           default:
+    //             newOrder.status = OrderStatus.CANCELLED
+    //         }
+    //         await this.orderRepository.save(newOrder)
+    //       })
+    //     return true
+    //   },
+    // )
+  }
+
+  private handleDeliverJob (order: Order) {
+    // this.schedule.scheduleTimeoutJob(
+    //   `deliver-job-${order.id.toString()}`,
+    //   20000,
+    //   async () => {
+    //     order.status = OrderStatus.DELIVERED
+    //     await this.orderRepository.save(order)
+    //     return true
+    //   },
+    // )
   }
 }
