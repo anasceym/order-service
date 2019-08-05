@@ -5,7 +5,6 @@
     "port": 2700
   },
   "mongo": {
-    "connectionString": "",
     "username": "",
     "password": "",
     "host": "localhost",

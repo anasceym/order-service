@@ -11,13 +11,11 @@ import { Config } from '../config/interface/config.interface'
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (config: Config) => {
-        const url =
-          config.mongo.connectionString &&
-          config.mongo.username &&
+        const url = config.mongo.username &&
           config.mongo.password &&
           config.mongo.db &&
           config.mongo.host
-            ? config.mongo.connectionString
+            ? 'mongodb+srv://{{username}}:{{password}}@{{host}}/{{db}}?retryWrites=true&w=majority'
                 .replace('{{username}}', config.mongo.username)
                 .replace('{{password}}', config.mongo.password)
                 .replace('{{host}}', config.mongo.host)
