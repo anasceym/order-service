@@ -7,11 +7,13 @@ services:
   - docker
 
 before_install:
-  - echo $MONGO_CONNECTION_URL > .env
+  - touch .env
+  - echo $MONGO_CONNECTION_URL >> .env
   - echo $MONGO_HOST >> .env
   - echo $MONGO_USERNAME >> .env
   - echo $MONGO_PASSWORD >> .env
   - echo $MONGO_DATABASE >> .env
+  - cat .env
   - docker build -t order-service .
 
 install:
