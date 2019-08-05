@@ -6,8 +6,6 @@ import { AppModule } from './modules/app/app.module'
 import { CONFIG } from './modules/config/config.provider'
 import { Config } from './modules/config/interface/config.interface'
 
-dotenv.config()
-
 async function bootstrap () {
   const app = await NestFactory.create(AppModule)
 
