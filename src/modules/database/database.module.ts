@@ -25,6 +25,7 @@ import { Config } from '../config/interface/config.interface'
             : ''
 
         console.log('==============> url', url)
+        console.log('==============> process.env', process.env)
         return {
           type: 'mongodb',
           url,
