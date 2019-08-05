@@ -19,3 +19,9 @@ install:
 
 script:
   - docker run --rm order-service npm test
+  - docker --version
+  - pip install awscli 
+  - export PATH=$PATH:$HOME/.local/bin
+  - eval $(aws ecr get-login --no-include-email --region ap-southeast-1) 
+  - docker tag order-service:latest 249502522254.dkr.ecr.ap-southeast-1.amazonaws.com/playground-order-service:latest
+  - docker push 249502522254.dkr.ecr.ap-southeast-1.amazonaws.com/playground-order-service:latest
