@@ -2,5 +2,11 @@
   "app": {
     "host": "0.0.0.0",
     "port": 80
+  },
+  "services": {
+    "payment": {
+      "host": "payment-service.local",
+      "port": 80
+    }
   }
 }
