@@ -13,4 +13,4 @@ install:
   - echo "install nothing!" 
 
 script:
-  - docker run --rm order-service npm test
+  - docker run --rm -e MONGO_CONNECTION_URL=$MONGO_CONNECTION_URL -e MONGO_HOST=$MONGO_HOST -e MONGO_USERNAME=$MONGO_USERNAME -e MONGO_PASSWORD=$MONGO_PASSWORD -e MONGO_DATABASE=$MONGO_DATABASE order-service npm test
