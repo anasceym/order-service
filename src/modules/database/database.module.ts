@@ -23,8 +23,6 @@ import { Config } from '../config/interface/config.interface'
                 .replace('{{db}}', config.mongo.db)
             : ''
 
-        console.log('==============> url', url)
-        console.log('==============> process.env', process.env)
         return {
           type: 'mongodb',
           url,
