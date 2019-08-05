@@ -11,7 +11,8 @@ import { Config } from '../config/interface/config.interface'
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (config: Config) => {
-        const url = config.mongo.username &&
+        const url =
+          config.mongo.username &&
           config.mongo.password &&
           config.mongo.db &&
           config.mongo.host
