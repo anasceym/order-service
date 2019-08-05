@@ -7,10 +7,15 @@ services:
   - docker
 
 before_install:
+  - echo $MONGO_CONNECTION_URL > .env
+  - echo $MONGO_HOST >> .env
+  - echo $MONGO_USERNAME >> .env
+  - echo $MONGO_PASSWORD >> .env
+  - echo $MONGO_DATABASE >> .env
   - docker build -t order-service .
 
 install:
   - echo "install nothing!" 
 
 script:
-  - docker run --rm -e MONGO_CONNECTION_URL=$MONGO_CONNECTION_URL -e MONGO_HOST=$MONGO_HOST -e MONGO_USERNAME=$MONGO_USERNAME -e MONGO_PASSWORD=$MONGO_PASSWORD -e MONGO_DATABASE=$MONGO_DATABASE order-service npm test
+  - docker run --rm order-service npm test
