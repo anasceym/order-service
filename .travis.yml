@@ -8,7 +8,7 @@ services:
 
 before_install:
   - touch .env
-  - echo MONGO_CONNECTION_URL=$MONGO_CONNECTION_URL >> .env
+  - echo MONGO_CONNECTION_URL=mongodb+srv://{{username}}:{{password}}@{{host}}/{{db}}?retryWrites=true&w=majority >> .env
   - echo MONGO_HOST=$MONGO_HOST >> .env
   - echo MONGO_USERNAME=$MONGO_USERNAME >> .env
   - echo MONGO_PASSWORD=$MONGO_PASSWORD >> .env
