@@ -1,6 +1,5 @@
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import * as dotenv from 'dotenv'
 
 import { AppModule } from './modules/app/app.module'
 import { CONFIG } from './modules/config/config.provider'
@@ -20,6 +19,8 @@ async function bootstrap () {
 
   const config = app.get<Config>(CONFIG)
 
+  app.enableCors()
+  
   await app.listen(config.app.port, config.app.host)
 }
 
