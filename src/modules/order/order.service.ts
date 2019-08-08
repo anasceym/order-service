@@ -19,7 +19,11 @@ export class OrderService {
   ) {}
 
   async findAll (): Promise<Order[]> {
-    return this.orderRepository.find()
+    return this.orderRepository.find({
+      order: {
+        id: 'DESC'
+      }
+    })
   }
 
   async cancelById (id: string): Promise<Order> {
@@ -30,6 +34,9 @@ export class OrderService {
     }
 
     order.status = OrderStatus.CANCELLED
+
+    this.schedule.cancelJob(this.getDeliverJobId(order))
+    this.schedule.cancelJob(this.getPaymentJobId(order))
 
     return this.orderRepository.save(order)
   }
@@ -49,9 +56,13 @@ export class OrderService {
     return newOrder
   }
 
+  private getPaymentJobId(order: Order) {
+    return `make-payment-job-${order.id.toString()}`
+  }
+
   private handleMakePaymentJob (newOrder: Order) {
     this.schedule.scheduleTimeoutJob(
-      `make-payment-job-${newOrder.id.toString()}`,
+      this.getPaymentJobId(newOrder),
       10000,
       () => {
         this.httpService
@@ -81,7 +92,7 @@ export class OrderService {
 
   private handleDeliverJob (order: Order) {
     this.schedule.scheduleTimeoutJob(
-      `deliver-job-${order.id.toString()}`,
+      this.getDeliverJobId(order),
       20000,
       async () => {
         order.status = OrderStatus.DELIVERED
@@ -89,5 +100,9 @@ export class OrderService {
         return true
       },
     )
+  }
+
+  private getDeliverJobId(order: Order): string {
+    return `deliver-job-${order.id.toString()}`;
   }
 }
