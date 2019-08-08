@@ -1,6 +1,8 @@
 ## Description
 Order-service. Another project for personal playground for NestJS framework.
 
+[![Build Status](https://travis-ci.org/anasceym/order-service.svg?branch=master)](https://travis-ci.org/anasceym/order-service)
+
 ## Installation
 
 ```bash
